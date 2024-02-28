@@ -13,14 +13,14 @@ const registerUser = asyncHandler(async (req, res) => {
   // all data is field or not
 
   if (
-    [useranme, fullname, email, password].some((field) => field.trim() === "")
+    [username, fullname, email, password].some((field) => field.trim() === "")
   ) {
     throw new ApiError(400, "fullname required");
   }
 
   //user exits or not
-  const existUser = User.findOne({
-    $or: [{ useranme }, { email }],
+  const existUser = await User.findOne({
+    $or: [{ username }, { email }],
   });
   if (existUser) {
     throw new ApiError(400, "User is allready exits");
